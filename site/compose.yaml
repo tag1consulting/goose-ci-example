@@ -1,0 +1,37 @@
+# A stock Drupal 11.4 site with the Umami demo, for the load test to run
+# against on the CI runner. Both images are pinned by digest, as Goose's
+# examples/umami README names them.
+#
+# The passwords below are for a throwaway site that lives only on the runner
+# for the length of one job; they are not secrets. ADMIN_PASSWORD is the
+# load test's default, so its admin user logs in without any settings.
+name: umami
+
+services:
+  db:
+    image: mariadb:11.4@sha256:d1891ede5a559f1086f55053bb8cc1569b0298338c4d72d71725a7f74f6ba620
+    environment:
+      MARIADB_DATABASE: drupal
+      MARIADB_USER: drupal
+      MARIADB_PASSWORD: drupal
+      MARIADB_RANDOM_ROOT_PASSWORD: "1"
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 2s
+      timeout: 5s
+      retries: 60
+
+  web:
+    # Drupal 11.4.11.
+    image: drupal:11-apache@sha256:f101028b47c9a39cb07869d7af298e14702d43d8ac3c0c92b632765fbeae0d0e
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_PASSWORD: drupal
+      ADMIN_PASSWORD: "P@ssw0rd1234"
+    volumes:
+      - ./install.sh:/install.sh:ro
+    command: ["bash", "/install.sh"]
+    ports:
+      - "127.0.0.1:${UMAMI_PORT:-8080}:80"

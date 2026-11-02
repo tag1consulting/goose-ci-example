@@ -1,0 +1,17 @@
+[package]
+name = "goose-ci-example"
+version = "0.1.0"
+edition = "2021"
+description = "A Goose load test that passes or fails your CI on response times and errors"
+license = "Apache-2.0"
+publish = false
+
+[dependencies]
+# TODO at the 0.19.1 release: switch to `goose = "0.19.1"`.
+# Until then, pinned to the release-0.19 commit that prints a readable
+# `Error:` line when main returns a GooseError (#798).
+goose = { git = "https://github.com/tag1consulting/goose", rev = "cd4f3cb8ecdabae9504c3189951e43006323605a" }
+# The same dependencies Goose's examples/umami uses, at Goose's versions.
+rand = "0.9"
+regex = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
