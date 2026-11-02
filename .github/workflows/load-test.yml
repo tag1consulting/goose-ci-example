@@ -16,7 +16,7 @@ jobs:
           cargo run --release -- \
             --host "http://localhost:8080" \
             --users 50 --increase-rate 10 --run-time 2m \
-            --quiet --threshold "p95<500ms" --threshold "error-rate<1%" \
+            --quiet --threshold "p95<2ms" --threshold "error-rate<1%" \
             --report-file report.html
       - name: Keep the report, pass or fail
         if: always()
