@@ -56,7 +56,7 @@ Rules can judge `pNN` percentiles, `avg`, `max`, `error-rate` and `rps`, for all
 
 ## Choosing the rules
 
-Rules only mean something against the hardware they run on. These were set from runs on GitHub's `ubuntu-latest` runner, where the load test and the site share one machine; see the pull request history for the figures.
+Rules only mean something against the hardware they run on. These were set from runs on GitHub's `ubuntu-latest` runner, where the load test and the site share one machine; two calibration runs there ([41490045707](https://github.com/tag1consulting/goose-ci-example/actions/runs/41490045707) and [41491483794](https://github.com/tag1consulting/goose-ci-example/actions/runs/41491483794)), at 50 users for 2 minutes, observed a p95 of 5.66 ms and 6.11 ms and an error rate of 0%. `p95<500ms` leaves about 80 times that, and `error-rate<1%` fails on the first few failed requests in a hundred. On your own site, run it a few times first and set the rules from what you see.
 
 ## Goose version
 
